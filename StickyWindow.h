@@ -9,10 +9,14 @@ public:
   explicit StickyWindow(QWidget *parent = 0);
   ~StickyWindow();
 private slots:
-  void handleHeaderClick();
+  void handleHeaderCollapse();
+  void handleHeaderPressed(QMouseEvent *e);
+  void handleHeaderMoved(QMouseEvent *e);
 private:
   QVBoxLayout *m_layout;
   HeaderLabel *m_header;
   QTextEdit *m_textBox;
+  QPoint m_dragPosition;
+  bool m_isCollapsed;
 };
 

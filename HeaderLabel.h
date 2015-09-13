@@ -6,9 +6,11 @@ public:
   explicit HeaderLabel(const QString& text="", QWidget* parent=0);
   ~HeaderLabel();
 signals:
-  void clicked();
+  void doubleClicked();
+  void pressed(QMouseEvent *e);
+  void moved(QMouseEvent *e);
 protected:
-  void mouseDoubleClickEvent(QMouseEvent* event);
+  void mouseDoubleClickEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void mousePressEvent(QMouseEvent *event);
 };
