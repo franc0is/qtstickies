@@ -5,8 +5,8 @@
 
 StickyWindow::StickyWindow(QWidget *parent) : QWidget(parent) {
   setFixedSize(300, 100);
-  setWindowFlags(Qt::WindowStaysOnTopHint); // Always on top
-  setWindowFlags(Qt::CustomizeWindowHint); // Don't show window decorators
+  setWindowFlags(Qt::WindowStaysOnTopHint | // Always on top
+                 Qt::CustomizeWindowHint);  // Don't show window decorators
 
   m_layout = new QVBoxLayout(this);
   m_layout->setContentsMargins(0, 0, 0, 0);
