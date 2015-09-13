@@ -1,15 +1,14 @@
 #include <QApplication>
-#include <QPushButton>
+#include <QTextEdit>
 
 int main(int argc, char **argv)
 {
  QApplication app (argc, argv);
 
  QWidget window;
- window.setFixedSize(100, 50);
+ window.setFixedSize(300, 100);
 
- QPushButton *button = new QPushButton("Hello World", &window);
- button->setGeometry(10, 10, 80, 30);
+ QTextEdit *text_edit = new QTextEdit(NULL, &window);
 
  window.setWindowFlags(Qt::WindowStaysOnTopHint);
  window.show();
