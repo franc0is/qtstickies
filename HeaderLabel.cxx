@@ -12,6 +12,13 @@ HeaderLabel::~HeaderLabel() {
 
 void HeaderLabel::mouseDoubleClickEvent(QMouseEvent* event) {
   emit clicked();
-  this->setText("Clicked!");
 }
+
+void HeaderLabel::mouseMoveEvent(QMouseEvent* event) {
+}
+
+void HeaderLabel::mousePressEvent(QMouseEvent* event) {
+}
+
+
 
