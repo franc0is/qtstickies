@@ -1,5 +1,5 @@
 StickyWindow {
-  background-color: rgb(254, 244, 139);
+  background-color: rgb(255, 242, 165);
 }
 
 QTextEdit {
