@@ -17,7 +17,6 @@ StickyWindow::StickyWindow(QWidget *parent) : QWidget(parent) {
   m_layout->addWidget(m_header);
 
   m_textBox = new QTextEdit(NULL, this);
-  m_textBox->setMaximumWidth(300);
   m_layout->addWidget(m_textBox);
 
   m_status = new QStatusBar(this);
@@ -43,7 +42,7 @@ void StickyWindow::handleHeaderCollapse() {
     resize(m_size);
   } else {
     m_size = size();
-    m_header->setText(m_textBox->toPlainText());
+    m_header->setText(m_textBox->toPlainText().split('\n')[0]);
     m_textBox->hide();
     m_status->hide();
     m_isCollapsed = true;
