@@ -18,5 +18,6 @@ private:
   QTextEdit *m_textBox;
   QPoint m_dragPosition;
   bool m_isCollapsed;
+  QColor m_color;
 };
 

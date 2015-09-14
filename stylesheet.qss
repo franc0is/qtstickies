@@ -1,0 +1,22 @@
+StickyWindow {
+  background-color: rgb(254, 244, 139);
+}
+
+QTextEdit {
+  background-color: rgba(0, 0, 0, 0%);
+  font: 12px "Helvetica";
+}
+
+HeaderLabel {
+  font: 9px "Helvetica";
+  font-weight: 200;
+  padding-top: 1px;
+  padding-left: 25px;
+  border-style: solid;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-width: 1px;
+  border-color: rgb(174, 155, 9);
+}
+

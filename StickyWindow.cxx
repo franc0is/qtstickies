@@ -1,7 +1,8 @@
 #include "StickyWindow.h"
 #include <QMouseEvent>
+#include <QFile>
 
-#define HEADER_HEIGHT 12
+#define HEADER_HEIGHT 13
 
 StickyWindow::StickyWindow(QWidget *parent) : QWidget(parent) {
   setFixedSize(300, 100);

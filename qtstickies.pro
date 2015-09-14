@@ -10,3 +10,4 @@ INCLUDEPATH += .
 # Input
 HEADERS += HeaderLabel.h StickyWindow.h
 SOURCES += HeaderLabel.cxx qtstickies.cxx StickyWindow.cxx
+RESOURCES = qtstickies.qrc
