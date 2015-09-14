@@ -8,11 +8,13 @@ What works:
   * Draggable
   * Collapsable
   * Editable
+  * Resizeable
+  * Yellow
 
 TODO for parity:
   * Multiple stickies
   * Save state between runs
-  * Colors
+  * Many Colors
   * Fonts
   * Inline images
 
