@@ -1,6 +1,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTextEdit>
+#include <QSizeGrip>
+#include <QStatusBar>
 #include "HeaderLabel.h"
 
 class StickyWindow : public QWidget {
@@ -16,8 +18,10 @@ private:
   QVBoxLayout *m_layout;
   HeaderLabel *m_header;
   QTextEdit *m_textBox;
+  QStatusBar *m_status;
   QPoint m_dragPosition;
   bool m_isCollapsed;
   QColor m_color;
+  QSize m_size;
 };
 

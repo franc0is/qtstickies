@@ -5,7 +5,6 @@
 #define HEADER_HEIGHT 13
 
 StickyWindow::StickyWindow(QWidget *parent) : QWidget(parent) {
-  setFixedSize(300, 100);
   setWindowFlags(Qt::WindowStaysOnTopHint | // Always on top
                  Qt::CustomizeWindowHint);  // Don't show window decorators
 
@@ -21,6 +20,9 @@ StickyWindow::StickyWindow(QWidget *parent) : QWidget(parent) {
   m_textBox->setMaximumWidth(300);
   m_layout->addWidget(m_textBox);
 
+  m_status = new QStatusBar(this);
+  m_layout->addWidget(m_status);
+
   m_isCollapsed = false;
 
   connect(m_header, SIGNAL (doubleClicked()), this, SLOT (handleHeaderCollapse()));
@@ -33,15 +35,19 @@ StickyWindow::~StickyWindow() {
 
 void StickyWindow::handleHeaderCollapse() {
   if (m_isCollapsed) {
-    setFixedSize(300, 100);
-    m_textBox->show();
     m_header->setText("");
+    m_textBox->show();
+    m_status->show();
     m_isCollapsed = false;
+    setFixedHeight(QWIDGETSIZE_MAX);
+    resize(m_size);
   } else {
-    setFixedHeight(HEADER_HEIGHT);
+    m_size = size();
     m_header->setText(m_textBox->toPlainText());
     m_textBox->hide();
+    m_status->hide();
     m_isCollapsed = true;
+    setFixedHeight(HEADER_HEIGHT);
   }
 }
 
