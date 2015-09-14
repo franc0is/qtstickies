@@ -20,3 +20,7 @@ HeaderLabel {
   border-color: rgb(174, 155, 9);
 }
 
+HeaderLabel:active {
+  background-color: rgb(255, 230, 91);
+}
+
