@@ -11,9 +11,9 @@ What works:
   * Editable
   * Resizeable
   * Yellow
+  * Multiple stickies
 
 TODO for parity:
-  * Multiple stickies
   * Many Colors
   * Fonts
   * Inline images

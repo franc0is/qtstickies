@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 #include <QApplication>
+#include <QAction>
 #include <QFile>
 #include <QMenuBar>
 #include <QMenu>
@@ -23,14 +24,6 @@
 int main(int argc, char **argv)
 {
   QApplication app (argc, argv);
-
-  // Menu Bar
-  // FIXME this only really works on OSX & ubuntu UI-wise.
-  QMenu *menu = new QMenu("File");
-  menu->addAction("New Note");
-  QMenuBar *menu_bar = new QMenuBar(0);
-  menu_bar->addAction(menu->menuAction());
-  menu_bar->setVisible(true);
 
   // Load an application style
   QFile styleFile(":/stylesheet.qss");
@@ -42,6 +35,19 @@ int main(int argc, char **argv)
   if (stickiesManager->restoreStickies() == 0) {
     stickiesManager->newSticky();
   }
+
+  // Menu Bar
+  // FIXME this only really works on OSX & ubuntu UI-wise.
+  QAction *newStickyAction = new QAction("New Note", 0);
+  newStickyAction->setShortcuts(QKeySequence::New);
+  stickiesManager->connect(newStickyAction, SIGNAL(triggered()), stickiesManager, SLOT (handleNewSticky()));
+
+  QMenu *menu = new QMenu("File");
+  menu->addAction(newStickyAction);
+
+  QMenuBar *menu_bar = new QMenuBar(0);
+  menu_bar->addAction(menu->menuAction());
+  menu_bar->setVisible(true);
 
   return app.exec();
 }

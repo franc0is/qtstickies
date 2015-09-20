@@ -25,6 +25,7 @@ public:
   void newSticky();
 private slots:
   void handleStickyChanged(StickyWindow *sticky);
+  void handleNewSticky();
 private:
   QSqlDatabase m_db;
 };

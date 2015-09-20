@@ -50,9 +50,16 @@ int StickiesManager::restoreStickies() {
 }
 
 void StickiesManager::newSticky() {
-  StickyWindow *sticky = new StickyWindow();
+  StickyWindow *sticky = new StickyWindow(0, rand(), "");
   connect(sticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
   sticky->show();
+}
+
+// Slots
+////////////////////////////////////////
+
+void StickiesManager::handleNewSticky() {
+  newSticky();
 }
 
 void StickiesManager::handleStickyChanged(StickyWindow *sticky) {
