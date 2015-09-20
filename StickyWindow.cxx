@@ -16,9 +16,6 @@
 #include "StickyWindow.h"
 #include <QMouseEvent>
 #include <QFile>
-#include <QSqlQuery>
-#include <QDebug>
-#include <QSqlError>
 
 #define HEADER_HEIGHT 13
 
@@ -51,23 +48,41 @@ StickyWindow::StickyWindow(QWidget *parent, int id, QString text) : QWidget(pare
 }
 
 StickyWindow::~StickyWindow() {
+  // TODO cleanup
 }
 
+// Getters
+/////////////////////////////////////
+
+QString StickyWindow::getText() {
+  return m_textBox->toPlainText();
+}
+
+QPoint StickyWindow::getPosition() {
+  // TODO
+  return QPoint(0, 0);
+}
+
+QSize StickyWindow::getExpandedSize() {
+  // TODO
+  return QSize(0, 0);
+}
+
+QColor StickyWindow::getColor() {
+  // TODO
+  return QColor(0, 0, 0);
+}
+
+int StickyWindow::getId() {
+  return m_id;
+}
+
+// Slots
+/////////////////////////////////////
+
 void StickyWindow::handleTextChanged() {
-  // FIXME we should probably save this less often
-  QSqlQuery query;
-  query.prepare("INSERT OR REPLACE INTO stickies ( id, color, width, height, text ) "
-                "VALUES ( :id, :color, :width, :height, :text ) ");
-  query.bindValue(":id", m_id);
-  query.bindValue(":color", 0); // FIXME
-  query.bindValue(":width", 0); // FIXME
-  query.bindValue(":height", 0); // FIXME
-  query.bindValue(":text", m_textBox->toPlainText());
-  if (!query.exec()) {
-    qDebug() << "Failed to exec query because";
-    qDebug() << query.lastError().databaseText();
-    qDebug() << query.lastError().driverText();
-  }
+  // FIXME we should probably emit this less often
+  emit contentChanged(this);
 }
 
 void StickyWindow::handleHeaderCollapse() {

@@ -25,11 +25,21 @@ Q_OBJECT
 public:
   explicit StickyWindow(QWidget *parent = 0, int id = 0, QString text = "");
   ~StickyWindow();
+  QString getText();
+  QPoint getPosition();
+  QSize getExpandedSize();
+  QColor getColor();
+  int getId();
+
+signals:
+  void contentChanged(StickyWindow *sticky);
+
 private slots:
   void handleHeaderCollapse();
   void handleHeaderPressed(QMouseEvent *e);
   void handleHeaderMoved(QMouseEvent *e);
   void handleTextChanged();
+
 private:
   QVBoxLayout *m_layout;
   HeaderLabel *m_header;
