@@ -5,6 +5,7 @@ A cross platform, modern take on OSX's stickies.
 Status: Very much WIP
 
 What works:
+  * Save state between runs
   * Draggable
   * Collapsable
   * Editable
@@ -13,7 +14,6 @@ What works:
 
 TODO for parity:
   * Multiple stickies
-  * Save state between runs
   * Many Colors
   * Fonts
   * Inline images
@@ -21,6 +21,7 @@ TODO for parity:
 Above and Beyond:
   * Server sync!
   * Check boxes
+  * Abstracted Storage back-end
 
 ## Buidling
 
