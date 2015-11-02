@@ -27,63 +27,63 @@ StickyWindow[stickyColor~="yellow"] > HeaderLabel:active {
   background-color: rgb(255, 230, 91);
 }
 
-StickyWindow[stickyColor=red] {
+StickyWindow[stickyColor="red"] {
   background-color: rgb(254, 199, 200);
 }
 
-StickyWindow[stickyColor=red] > HeaderLabel {
+StickyWindow[stickyColor="red"] > HeaderLabel {
   border-color: rgb(224, 118, 119);
 }
 
-StickyWindow[stickyColor=red] > HeaderLabel:active {
+StickyWindow[stickyColor="red"] > HeaderLabel:active {
   background-color: rgb(253, 178, 179);
 }
 
-StickyWindow[stickyColor=green] {
+StickyWindow[stickyColor="green"] {
   background-color: rgb(180, 253, 165);
 }
 
-StickyWindow[stickyColor=green] > HeaderLabel {
+StickyWindow[stickyColor="green"] > HeaderLabel {
   border-color: rgb(76, 161, 76);
 }
 
-StickyWindow[stickyColor=green] > HeaderLabel:active {
+StickyWindow[stickyColor="green"] > HeaderLabel:active {
   background-color: rgb(135, 252, 137);
 }
 
-StickyWindow[stickyColor=blue] {
+StickyWindow[stickyColor="blue"] {
   background-color: rgb(175, 244, 254);
 }
 
-StickyWindow[stickyColor=blue] > HeaderLabel {
+StickyWindow[stickyColor="blue"] > HeaderLabel {
   border-color: rgb(31, 184, 208);
 }
 
-StickyWindow[stickyColor=blue] > HeaderLabel:active {
+StickyWindow[stickyColor="blue"] > HeaderLabel:active {
   background-color: rgb(141, 240, 254);
 }
 
-StickyWindow[stickyColor=purple] {
+StickyWindow[stickyColor="purple"] {
   background-color: rgb(183, 203, 253);
 }
 
-StickyWindow[stickyColor=purple] > HeaderLabel {
+StickyWindow[stickyColor="purple"] > HeaderLabel {
   border-color: rgb(118, 147, 218);
 }
 
-StickyWindow[stickyColor=purple] > HeaderLabel:active {
+StickyWindow[stickyColor="purple"] > HeaderLabel:active {
   background-color: rgb(156, 183, 252);
 }
 
-StickyWindow[stickyColor=grey] {
+StickyWindow[stickyColor="grey"] {
   background-color: rgb(238, 238, 238);
 }
 
-StickyWindow[stickyColor=grey] > HeaderLabel {
+StickyWindow[stickyColor="grey"] > HeaderLabel {
   border-color: rgb(158, 158, 158);
 }
 
-StickyWindow[stickyColor=grey] > HeaderLabel:active {
+StickyWindow[stickyColor="grey"] > HeaderLabel:active {
   background-color: rgb(218, 218, 218);
 }
 

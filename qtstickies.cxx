@@ -36,17 +36,52 @@ int main(int argc, char **argv)
     stickiesManager->newSticky();
   }
 
-  // Menu Bar
-  // FIXME this only really works on OSX & ubuntu UI-wise.
+  // File Menu
+  QMenu *fileMenu = new QMenu("File");
+  // File -> New Note
   QAction *newStickyAction = new QAction("New Note", 0);
   newStickyAction->setShortcuts(QKeySequence::New);
   stickiesManager->connect(newStickyAction, SIGNAL(triggered()), stickiesManager, SLOT (handleNewSticky()));
+  fileMenu->addAction(newStickyAction);
 
-  QMenu *menu = new QMenu("File");
-  menu->addAction(newStickyAction);
+  // Color Menu
+  QMenu *colorMenu = new QMenu("Color", 0);
+  // Color->Yellow
+  QAction *yellowColorAction = new QAction("Yellow", 0);
+  yellowColorAction->setData("yellow");
+  stickiesManager->connect(yellowColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  colorMenu->addAction(yellowColorAction);
+  // Color->Red
+  QAction *redColorAction = new QAction("Red", 0);
+  redColorAction->setData("red");
+  stickiesManager->connect(redColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  colorMenu->addAction(redColorAction);
+  // Color->Green
+  QAction *greenColorAction = new QAction("Green", 0);
+  greenColorAction->setData("green");
+  stickiesManager->connect(greenColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  colorMenu->addAction(greenColorAction);
+  // Color->Blue
+  QAction *blueColorAction = new QAction("Blue", 0);
+  blueColorAction->setData("blue");
+  stickiesManager->connect(blueColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  colorMenu->addAction(blueColorAction);
+  // Color->Purple
+  QAction *purpleColorAction = new QAction("Purple", 0);
+  purpleColorAction->setData("purple");
+  stickiesManager->connect(purpleColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  colorMenu->addAction(purpleColorAction);
+  // Color->Grey
+  QAction *greyColorAction = new QAction("Grey", 0);
+  greyColorAction->setData("grey");
+  stickiesManager->connect(greyColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  colorMenu->addAction(greyColorAction);
 
+  // Menu Bar
+  // FIXME this only really works on OSX & ubuntu UI-wise.
   QMenuBar *menu_bar = new QMenuBar(0);
-  menu_bar->addAction(menu->menuAction());
+  menu_bar->addAction(fileMenu->menuAction());
+  menu_bar->addAction(colorMenu->menuAction());
   menu_bar->setVisible(true);
 
   return app.exec();

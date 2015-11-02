@@ -26,6 +26,7 @@ public:
 private slots:
   void handleStickyChanged(StickyWindow *sticky);
   void handleNewSticky();
+  void handleColorChanged();
 private:
   QSqlDatabase m_db;
 };

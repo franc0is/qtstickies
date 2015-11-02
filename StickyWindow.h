@@ -28,7 +28,8 @@ public:
   QString getText();
   QPoint getPosition();
   QSize getExpandedSize();
-  QColor getColor();
+  void setColor(QString colorName);
+  QString getColor();
   int getId();
 
 signals:

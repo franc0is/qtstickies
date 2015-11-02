@@ -16,6 +16,8 @@
 #include "StickyWindow.h"
 #include <QMouseEvent>
 #include <QFile>
+#include <QApplication>
+#include <QDebug>
 
 #define HEADER_HEIGHT 13
 
@@ -53,6 +55,17 @@ StickyWindow::~StickyWindow() {
   // TODO cleanup
 }
 
+// Setters
+/////////////////////////////////////
+
+void StickyWindow::setColor(QString colorName) {
+  setProperty("stickyColor", colorName);
+  // Refresh stylesheet
+  QString style = qApp->styleSheet();
+  qApp->setStyleSheet("/**/");
+  qApp->setStyleSheet(style);
+}
+
 // Getters
 /////////////////////////////////////
 
@@ -70,9 +83,8 @@ QSize StickyWindow::getExpandedSize() {
   return QSize(0, 0);
 }
 
-QColor StickyWindow::getColor() {
-  // TODO
-  return QColor(0, 0, 0);
+QString StickyWindow::getColor() {
+  return property("stickyColor").toString();
 }
 
 int StickyWindow::getId() {

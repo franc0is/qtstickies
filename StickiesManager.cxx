@@ -7,6 +7,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QAction>
 
 #define STICKIES_DB_NAME "stickies.sqlite"
 #define STICKIES_TABLE_NAME "stickies"
@@ -60,6 +61,24 @@ void StickiesManager::newSticky() {
 
 void StickiesManager::handleNewSticky() {
   newSticky();
+}
+
+void StickiesManager::handleColorChanged() {
+  QWidget *focused = QApplication::focusWidget();
+  // Not sure why that's required, but otherwise a child of StickyWindow is in focus
+  while (focused->parentWidget()) {
+    focused = focused->parentWidget();
+  }
+
+  StickyWindow *focusedSticky = qobject_cast<StickyWindow *>(focused);
+  if (!focusedSticky) {
+    // no sticky is in focused, exit
+    qDebug() << "Tried to change color when no sticky was in focus";
+    return;
+  }
+  // First figure out the color
+  QAction *triggeredAction = qobject_cast<QAction *>(QObject::sender());
+  focusedSticky->setColor(triggeredAction->data().toString());
 }
 
 void StickiesManager::handleStickyChanged(StickyWindow *sticky) {
