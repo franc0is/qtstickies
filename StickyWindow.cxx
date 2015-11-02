@@ -21,11 +21,9 @@
 
 #define HEADER_HEIGHT 13
 
-StickyWindow::StickyWindow(QWidget *parent, int id, QString text) : QWidget(parent) {
+StickyWindow::StickyWindow(QWidget *parent, int id, QString text, QString color) : QWidget(parent) {
   setWindowFlags(Qt::WindowStaysOnTopHint | // Always on top
                  Qt::CustomizeWindowHint);  // Don't show window decorators
-
-  setProperty("stickyColor", "yellow");
 
   m_layout = new QVBoxLayout(this);
   m_layout->setContentsMargins(0, 0, 0, 0);
@@ -44,6 +42,7 @@ StickyWindow::StickyWindow(QWidget *parent, int id, QString text) : QWidget(pare
 
   m_isCollapsed = false;
   m_id = id;
+  setProperty("stickyColor", color);
 
   connect(m_header, SIGNAL (doubleClicked()), this, SLOT (handleHeaderCollapse()));
   connect(m_header, SIGNAL (pressed(QMouseEvent *)), this, SLOT (handleHeaderPressed(QMouseEvent *)));
@@ -64,6 +63,7 @@ void StickyWindow::setColor(QString colorName) {
   QString style = qApp->styleSheet();
   qApp->setStyleSheet("/**/");
   qApp->setStyleSheet(style);
+  emit contentChanged(this);
 }
 
 // Getters

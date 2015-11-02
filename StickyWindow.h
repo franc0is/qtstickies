@@ -23,7 +23,7 @@
 class StickyWindow : public QWidget {
 Q_OBJECT
 public:
-  explicit StickyWindow(QWidget *parent = 0, int id = 0, QString text = "");
+  explicit StickyWindow(QWidget *parent = 0, int id = 0, QString text = "", QString color = "yellow");
   ~StickyWindow();
   QString getText();
   QPoint getPosition();

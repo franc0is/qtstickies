@@ -25,7 +25,7 @@ StickiesManager::StickiesManager() : QObject() {
   } else if (!m_db.tables().contains(QLatin1String(STICKIES_TABLE_NAME))) {
     QSqlQuery("CREATE TABLE " STICKIES_TABLE_NAME
               "( id INTEGER PRIMARY KEY, "
-              "color INTEGER, "
+              "color TEXT, "
               "width INTEGER, "
               "height INTEGER, "
               "text TEXT )",
@@ -37,11 +37,13 @@ int StickiesManager::restoreStickies() {
    QSqlQuery query("SELECT * FROM " STICKIES_TABLE_NAME, m_db);
    const int textField = query.record().indexOf("text");
    const int idField = query.record().indexOf("id");
+   const int colorField = query.record().indexOf("color");
    int numStickies = 0;
    while (query.next()) {
      StickyWindow *sticky = new StickyWindow(0,
                                              query.value(idField).toInt(),
-                                             query.value(textField).toString());
+                                             query.value(textField).toString(),
+                                             query.value(colorField).toString());
      connect(sticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
      sticky->show();
      numStickies++;
@@ -51,7 +53,7 @@ int StickiesManager::restoreStickies() {
 }
 
 void StickiesManager::newSticky() {
-  StickyWindow *sticky = new StickyWindow(0, rand(), "");
+  StickyWindow *sticky = new StickyWindow(0, rand());
   connect(sticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
   sticky->show();
 }
@@ -86,7 +88,7 @@ void StickiesManager::handleStickyChanged(StickyWindow *sticky) {
   query.prepare("INSERT OR REPLACE INTO " STICKIES_TABLE_NAME " ( id, color, width, height, text ) "
                 "VALUES ( :id, :color, :width, :height, :text ) ");
   query.bindValue(":id", sticky->getId());
-  query.bindValue(":color", 0); // FIXME
+  query.bindValue(":color", sticky->getColor());
   query.bindValue(":width", 0); // FIXME
   query.bindValue(":height", 0); // FIXME
   query.bindValue(":text", sticky->getText());
