@@ -23,6 +23,8 @@ StickyWindow::StickyWindow(QWidget *parent, int id, QString text) : QWidget(pare
   setWindowFlags(Qt::WindowStaysOnTopHint | // Always on top
                  Qt::CustomizeWindowHint);  // Don't show window decorators
 
+  setProperty("stickyColor", "yellow");
+
   m_layout = new QVBoxLayout(this);
   m_layout->setContentsMargins(0, 0, 0, 0);
   m_layout->setSpacing(0);

@@ -15,8 +15,76 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
-StickyWindow {
+StickyWindow[stickyColor~="yellow"] {
   background-color: rgb(255, 242, 165);
+}
+
+StickyWindow[stickyColor~="yellow"] > HeaderLabel {
+  border-color: rgb(174, 155, 9);
+}
+
+StickyWindow[stickyColor~="yellow"] > HeaderLabel:active {
+  background-color: rgb(255, 230, 91);
+}
+
+StickyWindow[stickyColor=red] {
+  background-color: rgb(254, 199, 200);
+}
+
+StickyWindow[stickyColor=red] > HeaderLabel {
+  border-color: rgb(224, 118, 119);
+}
+
+StickyWindow[stickyColor=red] > HeaderLabel:active {
+  background-color: rgb(253, 178, 179);
+}
+
+StickyWindow[stickyColor=green] {
+  background-color: rgb(180, 253, 165);
+}
+
+StickyWindow[stickyColor=green] > HeaderLabel {
+  border-color: rgb(76, 161, 76);
+}
+
+StickyWindow[stickyColor=green] > HeaderLabel:active {
+  background-color: rgb(135, 252, 137);
+}
+
+StickyWindow[stickyColor=blue] {
+  background-color: rgb(175, 244, 254);
+}
+
+StickyWindow[stickyColor=blue] > HeaderLabel {
+  border-color: rgb(31, 184, 208);
+}
+
+StickyWindow[stickyColor=blue] > HeaderLabel:active {
+  background-color: rgb(141, 240, 254);
+}
+
+StickyWindow[stickyColor=purple] {
+  background-color: rgb(183, 203, 253);
+}
+
+StickyWindow[stickyColor=purple] > HeaderLabel {
+  border-color: rgb(118, 147, 218);
+}
+
+StickyWindow[stickyColor=purple] > HeaderLabel:active {
+  background-color: rgb(156, 183, 252);
+}
+
+StickyWindow[stickyColor=grey] {
+  background-color: rgb(238, 238, 238);
+}
+
+StickyWindow[stickyColor=grey] > HeaderLabel {
+  border-color: rgb(158, 158, 158);
+}
+
+StickyWindow[stickyColor=grey] > HeaderLabel:active {
+  background-color: rgb(218, 218, 218);
 }
 
 QTextEdit {
@@ -34,12 +102,8 @@ HeaderLabel {
   border-left-style: none;
   border-right-style: none;
   border-width: 1px;
-  border-color: rgb(174, 155, 9);
 }
 
-HeaderLabel:active {
-  background-color: rgb(255, 230, 91);
-}
 
 /*
  * vim:filetype=css
