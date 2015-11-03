@@ -18,12 +18,16 @@
 #include <QFile>
 #include <QMenuBar>
 #include <QMenu>
+#include <QDateTime>
 
 #include "StickiesManager.h"
 
 int main(int argc, char **argv)
 {
   QApplication app (argc, argv);
+
+  QDateTime now = QDateTime::currentDateTime();
+  qsrand(now.toTime_t());
 
   // Load an application style
   QFile styleFile(":/stylesheet.qss");

@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QTGlobal>
 #include <QDir>
 #include <QMessageBox>
 #include <QSqlError>
@@ -53,7 +54,9 @@ StickyWindow *StickiesManager::restoreStickies() {
 }
 
 StickyWindow *StickiesManager::newSticky() {
-  StickyWindow *sticky = new StickyWindow(0, rand());
+  // TODO probably should be a UUID so we don't have to worry about it
+  int id = qrand();
+  StickyWindow *sticky = new StickyWindow(0, id);
   connect(sticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
   sticky->show();
   return sticky;
@@ -87,14 +90,11 @@ void StickiesManager::handleColorChanged(QAction *action) {
   }
   // First figure out the color
   focusedSticky->setColor(action->data().toString());
-  action->setChecked(true);
 }
 
 void StickiesManager::handleMenuWillShow() {
   QMenu *menu = qobject_cast<QMenu *>(QObject::sender());
-  if (menu == NULL) {
-    return; // FIXME assert or fatal
-  }
+  Q_ASSERT_X(menu != NULL, __FILE__, "MenuWillShow called by something not a menu");
   StickyWindow *topmostSticky = currentSticky();
   foreach (QAction *a, menu->actions()) {
     a->setChecked(topmostSticky->getColor().compare(a->data().toString()) == 0);
