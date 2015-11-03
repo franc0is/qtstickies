@@ -21,12 +21,14 @@ class StickiesManager : public QObject {
 Q_OBJECT
 public:
   explicit StickiesManager();
-  int restoreStickies();
-  void newSticky();
+  StickyWindow *restoreStickies();
+  StickyWindow *newSticky();
+  StickyWindow *currentSticky();
 private slots:
   void handleStickyChanged(StickyWindow *sticky);
   void handleNewSticky();
-  void handleColorChanged();
+  void handleColorChanged(QAction *action);
+  void handleMenuWillShow();
 private:
   QSqlDatabase m_db;
 };

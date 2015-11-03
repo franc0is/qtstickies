@@ -59,10 +59,11 @@ StickyWindow::~StickyWindow() {
 
 void StickyWindow::setColor(QString colorName) {
   setProperty("stickyColor", colorName);
-  // Refresh stylesheet
+  // ~hack to recompute stylesheet
   QString style = qApp->styleSheet();
   qApp->setStyleSheet("/**/");
   qApp->setStyleSheet(style);
+  // Content changed signal so new color is saved in DB
   emit contentChanged(this);
 }
 

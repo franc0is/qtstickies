@@ -32,50 +32,68 @@ int main(int argc, char **argv)
   app.setStyleSheet(style);
 
   StickiesManager *stickiesManager = new StickiesManager();
-  if (stickiesManager->restoreStickies() == 0) {
-    stickiesManager->newSticky();
+  StickyWindow *topmostSticky = stickiesManager->restoreStickies();
+  if (topmostSticky == NULL) {
+    topmostSticky = stickiesManager->newSticky();
   }
 
   // File Menu
   QMenu *fileMenu = new QMenu("File");
   // File -> New Note
-  QAction *newStickyAction = new QAction("New Note", 0);
+  QAction *newStickyAction = new QAction("New Note", fileMenu);
   newStickyAction->setShortcuts(QKeySequence::New);
   stickiesManager->connect(newStickyAction, SIGNAL(triggered()), stickiesManager, SLOT (handleNewSticky()));
   fileMenu->addAction(newStickyAction);
 
   // Color Menu
-  QMenu *colorMenu = new QMenu("Color", 0);
+  QMenu *colorMenu = new QMenu("Color");
+  colorMenu->connect(colorMenu, SIGNAL(aboutToShow()), stickiesManager, SLOT (handleMenuWillShow()));
+  QActionGroup *colorGroup = new QActionGroup(colorMenu);
+  colorGroup->setExclusive(true);
+  colorGroup->connect(colorGroup, SIGNAL(triggered(QAction *)), stickiesManager, SLOT (handleColorChanged(QAction *)));
+
   // Color->Yellow
-  QAction *yellowColorAction = new QAction("Yellow", 0);
+  QAction *yellowColorAction = new QAction("Yellow", colorGroup);
   yellowColorAction->setData("yellow");
-  stickiesManager->connect(yellowColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  yellowColorAction->setCheckable(true);
+  colorGroup->addAction(yellowColorAction);
   colorMenu->addAction(yellowColorAction);
+  yellowColorAction->setChecked(topmostSticky->getColor().compare(yellowColorAction->data().toString()) == 0);
   // Color->Red
-  QAction *redColorAction = new QAction("Red", 0);
+  QAction *redColorAction = new QAction("Red", colorGroup);
   redColorAction->setData("red");
-  stickiesManager->connect(redColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  redColorAction->setCheckable(true);
+  colorGroup->addAction(redColorAction);
   colorMenu->addAction(redColorAction);
+  redColorAction->setChecked(topmostSticky->getColor().compare(redColorAction->data().toString()) == 0);
   // Color->Green
-  QAction *greenColorAction = new QAction("Green", 0);
+  QAction *greenColorAction = new QAction("Green", colorGroup);
   greenColorAction->setData("green");
-  stickiesManager->connect(greenColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  greenColorAction->setCheckable(true);
+  colorGroup->addAction(greenColorAction);
   colorMenu->addAction(greenColorAction);
+  greenColorAction->setChecked(topmostSticky->getColor().compare(greenColorAction->data().toString()) == 0);
   // Color->Blue
-  QAction *blueColorAction = new QAction("Blue", 0);
+  QAction *blueColorAction = new QAction("Blue", colorGroup);
   blueColorAction->setData("blue");
-  stickiesManager->connect(blueColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  blueColorAction->setCheckable(true);
+  colorGroup->addAction(blueColorAction);
   colorMenu->addAction(blueColorAction);
+  blueColorAction->setChecked(topmostSticky->getColor().compare(blueColorAction->data().toString()) == 0);
   // Color->Purple
-  QAction *purpleColorAction = new QAction("Purple", 0);
+  QAction *purpleColorAction = new QAction("Purple", colorGroup);
   purpleColorAction->setData("purple");
-  stickiesManager->connect(purpleColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  purpleColorAction->setCheckable(true);
+  colorGroup->addAction(purpleColorAction);
   colorMenu->addAction(purpleColorAction);
+  purpleColorAction->setChecked(topmostSticky->getColor().compare(purpleColorAction->data().toString()) == 0);
   // Color->Grey
-  QAction *greyColorAction = new QAction("Grey", 0);
+  QAction *greyColorAction = new QAction("Grey", colorGroup);
   greyColorAction->setData("grey");
-  stickiesManager->connect(greyColorAction, SIGNAL(triggered()), stickiesManager, SLOT (handleColorChanged()));
+  greyColorAction->setCheckable(true);
+  colorGroup->addAction(greyColorAction);
   colorMenu->addAction(greyColorAction);
+  greyColorAction->setChecked(topmostSticky->getColor().compare(greyColorAction->data().toString()) == 0);
 
   // Menu Bar
   // FIXME this only really works on OSX & ubuntu UI-wise.

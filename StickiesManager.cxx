@@ -8,6 +8,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QAction>
+#include <QMenu>
 
 #define STICKIES_DB_NAME "stickies.sqlite"
 #define STICKIES_TABLE_NAME "stickies"
@@ -33,29 +34,41 @@ StickiesManager::StickiesManager() : QObject() {
   }
 }
 
-int StickiesManager::restoreStickies() {
+StickyWindow *StickiesManager::restoreStickies() {
    QSqlQuery query("SELECT * FROM " STICKIES_TABLE_NAME, m_db);
    const int textField = query.record().indexOf("text");
    const int idField = query.record().indexOf("id");
    const int colorField = query.record().indexOf("color");
-   int numStickies = 0;
+   StickyWindow *curSticky = NULL;
    while (query.next()) {
-     StickyWindow *sticky = new StickyWindow(0,
-                                             query.value(idField).toInt(),
-                                             query.value(textField).toString(),
-                                             query.value(colorField).toString());
-     connect(sticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
-     sticky->show();
-     numStickies++;
+     curSticky = new StickyWindow(0,
+                                  query.value(idField).toInt(),
+                                  query.value(textField).toString(),
+                                  query.value(colorField).toString());
+     connect(curSticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
+     curSticky->show();
    }
 
-   return numStickies;
+   return curSticky;
 }
 
-void StickiesManager::newSticky() {
+StickyWindow *StickiesManager::newSticky() {
   StickyWindow *sticky = new StickyWindow(0, rand());
   connect(sticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
   sticky->show();
+  return sticky;
+}
+
+StickyWindow *StickiesManager::currentSticky() {
+  QWidget *focused = QApplication::focusWidget();
+  // Not sure why that's required, but otherwise a child of StickyWindow is in focus
+  while (focused->parentWidget()) {
+    focused = focused->parentWidget();
+  }
+
+  StickyWindow *focusedSticky = qobject_cast<StickyWindow *>(focused);
+
+  return focusedSticky;
 }
 
 // Slots
@@ -65,22 +78,27 @@ void StickiesManager::handleNewSticky() {
   newSticky();
 }
 
-void StickiesManager::handleColorChanged() {
-  QWidget *focused = QApplication::focusWidget();
-  // Not sure why that's required, but otherwise a child of StickyWindow is in focus
-  while (focused->parentWidget()) {
-    focused = focused->parentWidget();
-  }
-
-  StickyWindow *focusedSticky = qobject_cast<StickyWindow *>(focused);
+void StickiesManager::handleColorChanged(QAction *action) {
+  StickyWindow *focusedSticky = currentSticky();
   if (!focusedSticky) {
     // no sticky is in focused, exit
     qDebug() << "Tried to change color when no sticky was in focus";
     return;
   }
   // First figure out the color
-  QAction *triggeredAction = qobject_cast<QAction *>(QObject::sender());
-  focusedSticky->setColor(triggeredAction->data().toString());
+  focusedSticky->setColor(action->data().toString());
+  action->setChecked(true);
+}
+
+void StickiesManager::handleMenuWillShow() {
+  QMenu *menu = qobject_cast<QMenu *>(QObject::sender());
+  if (menu == NULL) {
+    return; // FIXME assert or fatal
+  }
+  StickyWindow *topmostSticky = currentSticky();
+  foreach (QAction *a, menu->actions()) {
+    a->setChecked(topmostSticky->getColor().compare(a->data().toString()) == 0);
+  }
 }
 
 void StickiesManager::handleStickyChanged(StickyWindow *sticky) {
