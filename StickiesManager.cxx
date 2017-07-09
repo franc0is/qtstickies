@@ -51,6 +51,8 @@ StickiesManager::StickiesManager() : QObject() {
               "color TEXT, "
               "width INTEGER, "
               "height INTEGER, "
+              "posx INTEGER, "
+              "posy INTEGER, "
               "text TEXT )",
               m_db);
   }
@@ -63,6 +65,8 @@ StickyWindow *StickiesManager::restoreStickies() {
    const int colorField = query.record().indexOf("color");
    const int widthField = query.record().indexOf("width");
    const int heightField = query.record().indexOf("height");
+   const int posXField = query.record().indexOf("posx");
+   const int posYField = query.record().indexOf("posy");
    StickyWindow *curSticky = NULL;
    while (query.next()) {
      curSticky = new StickyWindow(0,
@@ -70,8 +74,10 @@ StickyWindow *StickiesManager::restoreStickies() {
                                   query.value(textField).toString(),
                                   query.value(colorField).toString());
      connect(curSticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
-     curSticky->resize(QSize(query.value(widthField).toInt(),
-                             query.value(heightField).toInt()));
+     curSticky->setGeometry(query.value(posXField).toInt(),
+                            query.value(posYField).toInt(),
+                            query.value(widthField).toInt(),
+                            query.value(heightField).toInt());
      curSticky->show();
    }
 
@@ -128,12 +134,14 @@ void StickiesManager::handleMenuWillShow() {
 
 void StickiesManager::handleStickyChanged(StickyWindow *sticky) {
   QSqlQuery query(m_db);
-  query.prepare("INSERT OR REPLACE INTO " STICKIES_TABLE_NAME " ( id, color, width, height, text ) "
-                "VALUES ( :id, :color, :width, :height, :text ) ");
+  query.prepare("INSERT OR REPLACE INTO " STICKIES_TABLE_NAME " ( id, color, width, height, posx, posy, text ) "
+                "VALUES ( :id, :color, :width, :height, :posx, :posy, :text ) ");
   query.bindValue(":id", sticky->getId());
   query.bindValue(":color", sticky->getColor());
   query.bindValue(":width", sticky->getExpandedSize().width());
   query.bindValue(":height", sticky->getExpandedSize().height());
+  query.bindValue(":posx", sticky->geometry().x());
+  query.bindValue(":posy", sticky->geometry().y());
   query.bindValue(":text", sticky->getText());
   if (!query.exec()) {
     qDebug() << "Failed to exec query because";

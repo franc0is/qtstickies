@@ -128,5 +128,6 @@ void StickyWindow::handleHeaderPressed(QMouseEvent *e) {
 
 void StickyWindow::handleHeaderMoved(QMouseEvent *e) {
   move(e->globalPos() - m_dragPosition);
+  emit contentChanged(this);
 }
 
