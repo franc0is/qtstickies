@@ -5,6 +5,7 @@
 #include <QTGlobal>
 #include <QDir>
 #include <QMessageBox>
+#include <QStandardPaths>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -15,10 +16,15 @@
 #define STICKIES_TABLE_NAME "stickies"
 
 StickiesManager::StickiesManager() : QObject() {
-  // Permanent data
+  // DB for permanent data
   m_db = QSqlDatabase::addDatabase("QSQLITE");
-  // FIXME might not be right place to put a DB for windows or ubuntu
-  m_db.setDatabaseName(qApp->applicationDirPath()
+
+  // Put it in appdata folder, create if it doesn't exist
+  QString localDataPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+  QDir dir(localDataPath);
+  if (!dir.exists())
+    dir.mkpath(localDataPath);
+  m_db.setDatabaseName(localDataPath
                     + QDir::separator()
                     + "stickies.sqlite");
 
