@@ -92,6 +92,12 @@ QTextEdit {
   font: 12px "Helvetica";
 }
 
+QSizeGrip {
+    image: none;
+    width: 16px;
+    height: 16px;
+}
+
 HeaderLabel {
   font: 9px "Helvetica";
   font-weight: 200;

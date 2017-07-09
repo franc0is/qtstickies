@@ -26,7 +26,7 @@ StickyWindow::StickyWindow(QWidget *parent, int id, QString text, QString color)
                  Qt::CustomizeWindowHint);  // Don't show window decorators
 
   m_layout = new QVBoxLayout(this);
-  m_layout->setContentsMargins(0, 0, 0, 0);
+  m_layout->setContentsMargins(QMargins());
   m_layout->setSpacing(0);
 
   m_header = new HeaderLabel("", this);
@@ -37,8 +37,8 @@ StickyWindow::StickyWindow(QWidget *parent, int id, QString text, QString color)
   m_textBox->setPlainText(text);
   m_layout->addWidget(m_textBox);
 
-  m_status = new QStatusBar(this);
-  m_layout->addWidget(m_status);
+  m_grip = new QSizeGrip(this);
+  m_layout->addWidget(m_grip, 0, Qt::AlignRight);
 
   m_isCollapsed = false;
   m_id = id;
@@ -74,11 +74,6 @@ QString StickyWindow::getText() {
   return m_textBox->toPlainText();
 }
 
-QPoint StickyWindow::getPosition() {
-  // TODO
-  return QPoint(0, 0);
-}
-
 QSize StickyWindow::getExpandedSize() {
   // TODO
   return QSize(0, 0);
@@ -104,7 +99,7 @@ void StickyWindow::handleHeaderCollapse() {
   if (m_isCollapsed) {
     m_header->setText("");
     m_textBox->show();
-    m_status->show();
+    m_grip->show();
     m_isCollapsed = false;
     setFixedHeight(QWIDGETSIZE_MAX);
     resize(m_size);
@@ -112,7 +107,7 @@ void StickyWindow::handleHeaderCollapse() {
     m_size = size();
     m_header->setText(m_textBox->toPlainText().split('\n')[0]);
     m_textBox->hide();
-    m_status->hide();
+    m_grip->hide();
     m_isCollapsed = true;
     setFixedHeight(HEADER_HEIGHT);
   }

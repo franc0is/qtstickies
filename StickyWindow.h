@@ -26,7 +26,6 @@ public:
   explicit StickyWindow(QWidget *parent = 0, int id = 0, QString text = "", QString color = "yellow");
   ~StickyWindow();
   QString getText();
-  QPoint getPosition();
   QSize getExpandedSize();
   void setColor(QString colorName);
   QString getColor();
@@ -45,7 +44,7 @@ private:
   QVBoxLayout *m_layout;
   HeaderLabel *m_header;
   QTextEdit *m_textBox;
-  QStatusBar *m_status;
+  QSizeGrip *m_grip;
   QPoint m_dragPosition;
   bool m_isCollapsed;
   QColor m_color;
