@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Francois Baldassari
+// Copyright (C) 2015-present Francois Baldassari
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,6 +30,9 @@ public:
   void setColor(QString colorName);
   QString getColor();
   int getId();
+
+protected:
+  void resizeEvent(QResizeEvent *event);
 
 signals:
   void contentChanged(StickyWindow *sticky);

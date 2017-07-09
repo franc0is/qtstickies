@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Francois Baldassari
+// Copyright (C) 2015-present Francois Baldassari
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -75,8 +75,7 @@ QString StickyWindow::getText() {
 }
 
 QSize StickyWindow::getExpandedSize() {
-  // TODO
-  return QSize(0, 0);
+  return m_size;
 }
 
 QString StickyWindow::getColor() {
@@ -85,6 +84,17 @@ QString StickyWindow::getColor() {
 
 int StickyWindow::getId() {
   return m_id;
+}
+
+// Events
+/////////////////////////////////////
+
+void StickyWindow::resizeEvent(QResizeEvent *event) {
+  QWidget::resizeEvent(event);
+  if (!m_isCollapsed) {
+    m_size = size();
+    emit contentChanged(this);
+  }
 }
 
 // Slots
@@ -104,7 +114,6 @@ void StickyWindow::handleHeaderCollapse() {
     setFixedHeight(QWIDGETSIZE_MAX);
     resize(m_size);
   } else {
-    m_size = size();
     m_header->setText(m_textBox->toPlainText().split('\n')[0]);
     m_textBox->hide();
     m_grip->hide();

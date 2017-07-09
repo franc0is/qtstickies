@@ -1,3 +1,18 @@
+// Copyright (C) 2015-present Francois Baldassari
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>
+
 #include "StickiesManager.h"
 
 #include <QApplication>
@@ -46,6 +61,8 @@ StickyWindow *StickiesManager::restoreStickies() {
    const int textField = query.record().indexOf("text");
    const int idField = query.record().indexOf("id");
    const int colorField = query.record().indexOf("color");
+   const int widthField = query.record().indexOf("width");
+   const int heightField = query.record().indexOf("height");
    StickyWindow *curSticky = NULL;
    while (query.next()) {
      curSticky = new StickyWindow(0,
@@ -53,6 +70,8 @@ StickyWindow *StickiesManager::restoreStickies() {
                                   query.value(textField).toString(),
                                   query.value(colorField).toString());
      connect(curSticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
+     curSticky->resize(QSize(query.value(widthField).toInt(),
+                             query.value(heightField).toInt()));
      curSticky->show();
    }
 
@@ -113,8 +132,8 @@ void StickiesManager::handleStickyChanged(StickyWindow *sticky) {
                 "VALUES ( :id, :color, :width, :height, :text ) ");
   query.bindValue(":id", sticky->getId());
   query.bindValue(":color", sticky->getColor());
-  query.bindValue(":width", 0); // FIXME
-  query.bindValue(":height", 0); // FIXME
+  query.bindValue(":width", sticky->getExpandedSize().width());
+  query.bindValue(":height", sticky->getExpandedSize().height());
   query.bindValue(":text", sticky->getText());
   if (!query.exec()) {
     qDebug() << "Failed to exec query because";
