@@ -2,7 +2,7 @@
 
 A cross platform, modern take on OSX's stickies.
 
-![Screenshot](https://www.dropbox.com/s/0dl1yj52ef9gcnd/Screenshot%202017-07-10%2010.01.21.png)
+![Screenshot](https://www.dropbox.com/s/3r6x7qvsmszx48r/Screenshot%202017-07-10%2010.03.00.png?dl=0)
 
 Status: Very much WIP
 
