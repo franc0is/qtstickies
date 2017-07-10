@@ -86,6 +86,19 @@ int StickyWindow::getId() {
   return m_id;
 }
 
+bool StickyWindow::isCollapsed() {
+  return m_isCollapsed;
+}
+
+// Setters
+/////////////////////////////////////
+
+void StickyWindow::setCollapsed(bool collapsed) {
+  if (collapsed != m_isCollapsed) {
+    handleHeaderCollapse();
+  }
+}
+
 // Events
 /////////////////////////////////////
 
@@ -120,6 +133,7 @@ void StickyWindow::handleHeaderCollapse() {
     m_isCollapsed = true;
     setFixedHeight(HEADER_HEIGHT);
   }
+  emit contentChanged(this);
 }
 
 void StickyWindow::handleHeaderPressed(QMouseEvent *e) {

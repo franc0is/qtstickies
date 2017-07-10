@@ -53,33 +53,36 @@ StickiesManager::StickiesManager() : QObject() {
               "height INTEGER, "
               "posx INTEGER, "
               "posy INTEGER, "
+              "isCollapsed INTEGER, "
               "text TEXT )",
               m_db);
   }
 }
 
 StickyWindow *StickiesManager::restoreStickies() {
-   QSqlQuery query("SELECT * FROM " STICKIES_TABLE_NAME, m_db);
-   const int textField = query.record().indexOf("text");
-   const int idField = query.record().indexOf("id");
-   const int colorField = query.record().indexOf("color");
-   const int widthField = query.record().indexOf("width");
-   const int heightField = query.record().indexOf("height");
-   const int posXField = query.record().indexOf("posx");
-   const int posYField = query.record().indexOf("posy");
-   StickyWindow *curSticky = NULL;
-   while (query.next()) {
-     curSticky = new StickyWindow(0,
-                                  query.value(idField).toInt(),
-                                  query.value(textField).toString(),
-                                  query.value(colorField).toString());
-     connect(curSticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
-     curSticky->setGeometry(query.value(posXField).toInt(),
-                            query.value(posYField).toInt(),
-                            query.value(widthField).toInt(),
-                            query.value(heightField).toInt());
-     curSticky->show();
-   }
+  QSqlQuery query("SELECT * FROM " STICKIES_TABLE_NAME, m_db);
+  const int textField = query.record().indexOf("text");
+  const int idField = query.record().indexOf("id");
+  const int colorField = query.record().indexOf("color");
+  const int widthField = query.record().indexOf("width");
+  const int heightField = query.record().indexOf("height");
+  const int posXField = query.record().indexOf("posx");
+  const int posYField = query.record().indexOf("posy");
+  const int isCollapsedField = query.record().indexOf("isCollapsed");
+  StickyWindow *curSticky = NULL;
+  while (query.next()) {
+    curSticky = new StickyWindow(0,
+                                 query.value(idField).toInt(),
+                                 query.value(textField).toString(),
+                                 query.value(colorField).toString());
+    connect(curSticky, SIGNAL (contentChanged(StickyWindow *)), this, SLOT (handleStickyChanged(StickyWindow *)));
+    curSticky->setGeometry(query.value(posXField).toInt(),
+                           query.value(posYField).toInt(),
+                           query.value(widthField).toInt(),
+                           query.value(heightField).toInt());
+    curSticky->show();
+    curSticky->setCollapsed((query.value(isCollapsedField).toInt() != 0));
+  }
 
    return curSticky;
 }
@@ -134,14 +137,15 @@ void StickiesManager::handleMenuWillShow() {
 
 void StickiesManager::handleStickyChanged(StickyWindow *sticky) {
   QSqlQuery query(m_db);
-  query.prepare("INSERT OR REPLACE INTO " STICKIES_TABLE_NAME " ( id, color, width, height, posx, posy, text ) "
-                "VALUES ( :id, :color, :width, :height, :posx, :posy, :text ) ");
+  query.prepare("INSERT OR REPLACE INTO " STICKIES_TABLE_NAME " ( id, color, width, height, posx, posy, isCollapsed, text ) "
+                "VALUES ( :id, :color, :width, :height, :posx, :posy, :isCollapsed, :text ) ");
   query.bindValue(":id", sticky->getId());
   query.bindValue(":color", sticky->getColor());
   query.bindValue(":width", sticky->getExpandedSize().width());
   query.bindValue(":height", sticky->getExpandedSize().height());
   query.bindValue(":posx", sticky->geometry().x());
   query.bindValue(":posy", sticky->geometry().y());
+  query.bindValue(":isCollapsed", sticky->isCollapsed());
   query.bindValue(":text", sticky->getText());
   if (!query.exec()) {
     qDebug() << "Failed to exec query because";

@@ -30,6 +30,8 @@ public:
   void setColor(QString colorName);
   QString getColor();
   int getId();
+  bool isCollapsed();
+  void setCollapsed(bool collapsed);
 
 protected:
   void resizeEvent(QResizeEvent *event);

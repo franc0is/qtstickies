@@ -13,14 +13,15 @@ What works:
   * Yellow
   * Multiple stickies
   * Many Colors
+  * Save position & size
 
 TODO better code:
   * use QPROPERTIES rather than passing strings around for color
+  * less code duplication around sql queries
 
 TODO for parity:
   * Fonts
   * Inline images
-  * Save position & size
 
 Above and Beyond:
   * Server sync!
