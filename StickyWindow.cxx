@@ -23,7 +23,8 @@
 
 StickyWindow::StickyWindow(QWidget *parent, int id, QString text, QString color) : QWidget(parent) {
   setWindowFlags(Qt::WindowStaysOnTopHint | // Always on top
-                 Qt::CustomizeWindowHint);  // Don't show window decorators
+                 Qt::CustomizeWindowHint  | // Don't show window decorators
+                 Qt::FramelessWindowHint);
 
   m_layout = new QVBoxLayout(this);
   m_layout->setContentsMargins(QMargins());
@@ -35,6 +36,7 @@ StickyWindow::StickyWindow(QWidget *parent, int id, QString text, QString color)
 
   m_textBox = new QTextEdit(NULL, this);
   m_textBox->setPlainText(text);
+  m_textBox->setFrameShape(QFrame::NoFrame);
   m_layout->addWidget(m_textBox);
 
   m_grip = new QSizeGrip(this);
