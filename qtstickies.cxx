@@ -22,6 +22,15 @@
 
 #include "StickiesManager.h"
 
+void addColor(QMenu *menu, QActionGroup *group, QString const &colorString)
+{
+  QAction *colorAction = new QAction(colorString, group);
+  colorAction->setData(colorString.toLower());
+  colorAction->setCheckable(true);
+  group->addAction(colorAction);
+  menu->addAction(colorAction);
+}
+
 int main(int argc, char **argv)
 {
   QApplication app (argc, argv);
@@ -37,10 +46,7 @@ int main(int argc, char **argv)
   app.setStyleSheet(style);
 
   StickiesManager *stickiesManager = new StickiesManager();
-  StickyWindow *topmostSticky = stickiesManager->restoreStickies();
-  if (topmostSticky == NULL) {
-    topmostSticky = stickiesManager->newSticky();
-  }
+  stickiesManager->restoreStickies();
 
   // File Menu
   QMenu *fileMenu = new QMenu("File");
@@ -58,47 +64,12 @@ int main(int argc, char **argv)
   colorGroup->connect(colorGroup, SIGNAL(triggered(QAction *)), stickiesManager, SLOT (handleColorChanged(QAction *)));
 
   // Color->Yellow
-  QAction *yellowColorAction = new QAction("Yellow", colorGroup);
-  yellowColorAction->setData("yellow");
-  yellowColorAction->setCheckable(true);
-  colorGroup->addAction(yellowColorAction);
-  colorMenu->addAction(yellowColorAction);
-  yellowColorAction->setChecked(topmostSticky->getColor().compare(yellowColorAction->data().toString()) == 0);
-  // Color->Red
-  QAction *redColorAction = new QAction("Red", colorGroup);
-  redColorAction->setData("red");
-  redColorAction->setCheckable(true);
-  colorGroup->addAction(redColorAction);
-  colorMenu->addAction(redColorAction);
-  redColorAction->setChecked(topmostSticky->getColor().compare(redColorAction->data().toString()) == 0);
-  // Color->Green
-  QAction *greenColorAction = new QAction("Green", colorGroup);
-  greenColorAction->setData("green");
-  greenColorAction->setCheckable(true);
-  colorGroup->addAction(greenColorAction);
-  colorMenu->addAction(greenColorAction);
-  greenColorAction->setChecked(topmostSticky->getColor().compare(greenColorAction->data().toString()) == 0);
-  // Color->Blue
-  QAction *blueColorAction = new QAction("Blue", colorGroup);
-  blueColorAction->setData("blue");
-  blueColorAction->setCheckable(true);
-  colorGroup->addAction(blueColorAction);
-  colorMenu->addAction(blueColorAction);
-  blueColorAction->setChecked(topmostSticky->getColor().compare(blueColorAction->data().toString()) == 0);
-  // Color->Purple
-  QAction *purpleColorAction = new QAction("Purple", colorGroup);
-  purpleColorAction->setData("purple");
-  purpleColorAction->setCheckable(true);
-  colorGroup->addAction(purpleColorAction);
-  colorMenu->addAction(purpleColorAction);
-  purpleColorAction->setChecked(topmostSticky->getColor().compare(purpleColorAction->data().toString()) == 0);
-  // Color->Grey
-  QAction *greyColorAction = new QAction("Grey", colorGroup);
-  greyColorAction->setData("grey");
-  greyColorAction->setCheckable(true);
-  colorGroup->addAction(greyColorAction);
-  colorMenu->addAction(greyColorAction);
-  greyColorAction->setChecked(topmostSticky->getColor().compare(greyColorAction->data().toString()) == 0);
+  addColor(colorMenu, colorGroup, QString("Yellow"));
+  addColor(colorMenu, colorGroup, QString("Red"));
+  addColor(colorMenu, colorGroup, QString("Green"));
+  addColor(colorMenu, colorGroup, QString("Blue"));
+  addColor(colorMenu, colorGroup, QString("Purple"));
+  addColor(colorMenu, colorGroup, QString("Grey"));
 
   // Menu Bar
   // FIXME this only really works on OSX & ubuntu UI-wise.

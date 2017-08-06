@@ -12,3 +12,6 @@ INCLUDEPATH += .
 HEADERS += HeaderLabel.h StickiesManager.h StickyWindow.h
 SOURCES += HeaderLabel.cxx qtstickies.cxx StickiesManager.cxx StickyWindow.cxx
 RESOURCES += qtstickies.qrc
+
+# Debug
+CONFIG += debug

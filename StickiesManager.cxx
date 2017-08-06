@@ -97,15 +97,10 @@ StickyWindow *StickiesManager::newSticky() {
 }
 
 StickyWindow *StickiesManager::currentSticky() {
-  QWidget *focused = QApplication::focusWidget();
-  // Not sure why that's required, but otherwise a child of StickyWindow is in focus
-  while (focused->parentWidget()) {
-    focused = focused->parentWidget();
-  }
+  QWidget *active = QApplication::activeWindow();
+  StickyWindow *activeSticky = qobject_cast<StickyWindow *>(active);
 
-  StickyWindow *focusedSticky = qobject_cast<StickyWindow *>(focused);
-
-  return focusedSticky;
+  return activeSticky;
 }
 
 // Slots
