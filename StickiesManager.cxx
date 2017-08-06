@@ -96,6 +96,7 @@ StickyWindow *StickiesManager::newSticky() {
   return sticky;
 }
 
+// FIXME this doesn't work on Windows -- the menu is itself a window
 StickyWindow *StickiesManager::currentSticky() {
   QWidget *active = QApplication::activeWindow();
   StickyWindow *activeSticky = qobject_cast<StickyWindow *>(active);

@@ -19,6 +19,8 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QDateTime>
+#include <QIcon>
+#include <QSystemTrayIcon>
 
 #include "StickiesManager.h"
 
@@ -62,8 +64,7 @@ int main(int argc, char **argv)
   QActionGroup *colorGroup = new QActionGroup(colorMenu);
   colorGroup->setExclusive(true);
   colorGroup->connect(colorGroup, SIGNAL(triggered(QAction *)), stickiesManager, SLOT (handleColorChanged(QAction *)));
-
-  // Color->Yellow
+  // Add all the colors
   addColor(colorMenu, colorGroup, QString("Yellow"));
   addColor(colorMenu, colorGroup, QString("Red"));
   addColor(colorMenu, colorGroup, QString("Green"));
@@ -71,12 +72,16 @@ int main(int argc, char **argv)
   addColor(colorMenu, colorGroup, QString("Purple"));
   addColor(colorMenu, colorGroup, QString("Grey"));
 
-  // Menu Bar
-  // FIXME this only really works on OSX & ubuntu UI-wise.
-  QMenuBar *menu_bar = new QMenuBar(0);
-  menu_bar->addAction(fileMenu->menuAction());
-  menu_bar->addAction(colorMenu->menuAction());
-  menu_bar->setVisible(true);
+  // Top-level menu
+  QMenu *appMenu = new QMenu("QtStickies");
+  appMenu->addMenu(fileMenu);
+  appMenu->addMenu(colorMenu);
+
+  // System Tray
+  QSystemTrayIcon *trayIcon = new QSystemTrayIcon();
+  trayIcon->setIcon(QIcon(":/sticky-note.png"));
+  trayIcon->setContextMenu(appMenu);
+  trayIcon->show();
 
   return app.exec();
 }
